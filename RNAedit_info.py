@@ -105,17 +105,17 @@ with inFile3 as f:
             print("{} : {}".format(edit_codon, edit_AA))
             outFile3.write(line)
         else:
-            if genePos % 3 == 1:
+            if genePos % 3 == 0:
                 pos1Ct += 1
                 print("{} to {} edit in {}: {}_{} is at the first position".format(initPos, editPos, Name, cuID, gnmPos))
-                edit_list = fastaDict[cuID][genePos-1:genePos + 2]
+                edit_list = fastaDict[cuID][genePos:genePos + 3]
                 init_codon = ''.join(edit_list)
                 init_AA = codon_table[init_codon]
                 edit_codon = ''.join([str(editPos), edit_list[1], edit_list[2]])
                 edit_AA = codon_table[edit_codon]
                 print("{} : {}".format(init_codon, init_AA))
                 print("{} : {}".format(edit_codon, edit_AA))
-            elif genePos % 3 == 2:
+            elif genePos % 3 == 1:
                 pos2Ct += 1
                 print("{} to {} edit in {}: {}_{} is at the second position".format(initPos, editPos, Name, cuID, gnmPos))
                 edit_list = fastaDict[cuID][genePos - 1:genePos + 2]
@@ -127,7 +127,7 @@ with inFile3 as f:
                 print("{} : {}".format(edit_codon, edit_AA))
                 if gnmPos - prevPos <= 2:
                     twoFer += 1
-                    print("TWO IN ONE!!!")
+                    print("multiple edits at this site")
                     twoFerList.append("{} {}_{}\t{} -> {}".format(Name, cuID, gnmPos, init_AA, edit_AA))
             else:
                 pos3Ct += 1
@@ -141,7 +141,7 @@ with inFile3 as f:
                 print("{} : {}".format(edit_codon, edit_AA))
                 if gnmPos - prevPos <= 2:
                     twoFer += 1
-                    print("TWO IN ONE!!!")
+                    print("multiple edits at this site")
                     twoFerList.append("{} {}_{}\t{} -> {}".format(Name, cuID, gnmPos, init_AA, edit_AA))
         if edit_AA == "*" or init_AA == "*":
             stopCt += 1
